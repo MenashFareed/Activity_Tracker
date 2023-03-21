@@ -9,6 +9,7 @@ import Workout from "./pages/Workout";
 import Profile from "./pages/Profile";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import Activity from "./pages/Activity";
 
 function Router() {
   return (
@@ -36,6 +37,12 @@ function Router() {
               privateRoute
               layout={DashboardLayout}
               page={Profile}
+            />
+            <RouteWrapper
+              path="/activity"
+              privateRoute
+              layout={DashboardLayout}
+              page={Activity}
             />
           </Switch>
         </WorkoutProvider>

@@ -29,6 +29,11 @@ export const NAV_LINKS = [
     to: "/profile",
     icon: "user",
   },
+  {
+    label: "Activity",
+    to: "/activity",
+    icon: "fitness",
+  },
 ];
 
 /*--------------------------
