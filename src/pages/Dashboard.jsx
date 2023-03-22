@@ -66,13 +66,13 @@ function Dashboard() {
       <div className="flex space-x-10 items-end">
         <h1 className="text-4xl">Dashboard</h1>
         <Link to="/workout">
-          <Button value="New workout" variant="primary" type="text" />
+          <Button value="New Activity" variant="primary" type="text" />
         </Link>
       </div>
       <main className="lg:flex lg:space-x-10 space-y-5 lg:space-y-0">
         <section className="lg:w-72 bg-primary text-white rounded-xl">
           <div className="p-10 space-y-10">
-            <h2 className="text-lg text-white">Workouts</h2>
+            <h2 className="text-lg text-white">Activities</h2>
             <div className="space-y-1">
               <h5 className="font-light text-sm text-white">TOTAL</h5>
               <h3 className="font-light text-6xl text-white">
@@ -84,7 +84,33 @@ function Dashboard() {
         </section>
         <section className="flex-grow bg-white rounded-xl lg:flex">
           <div className="p-10 space-y-10">
-            <h2 className="text-lg text-primary">Calories</h2>
+            <h2 className="text-lg text-primary">Stats</h2>
+            <div className="space-y-1">
+              <h5 className="font-light text-sm text-primary">TODAY</h5>
+              <h3 className="font-light text-6xl text-primary">
+                {isFetchingWorkouts ? 0 : parseInt(calories.today)}
+              </h3>
+            </div>
+            <div className="space-y-1">
+              <h5 className="font-light text-sm text-primary">THIS WEEK</h5>
+              <h3 className="font-light text-6xl text-primary">
+                {isFetchingWorkouts ? 0 : parseInt(calories.week)}
+              </h3>
+            </div>
+            <div className="space-y-1">
+              <h5 className="font-light text-sm text-primary">THIS MONTH</h5>
+              <h3 className="font-light text-6xl text-primary">
+                {isFetchingWorkouts ? 0 : parseInt(calories.month)}
+              </h3>
+            </div>
+          </div>
+          <div className="flex-grow">
+            <CalorieChart />
+          </div>
+        </section>
+        <section className="flex-grow bg-white rounded-xl lg:flex">
+          <div className="p-10 space-y-10">
+            <h2 className="text-lg text-primary">Stats</h2>
             <div className="space-y-1">
               <h5 className="font-light text-sm text-primary">TODAY</h5>
               <h3 className="font-light text-6xl text-primary">

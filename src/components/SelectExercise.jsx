@@ -71,7 +71,7 @@ function SelectExercise({ toggleModal }) {
               className="text-lg leading-6 font-medium text-gray-900"
               id="modal-title"
             >
-              {showCreateExercise ? "Create exercise" : "Add exercise"}
+              {showCreateExercise ? "Create Activity" : "Add Activity"}
             </h3>
           </div>
           <div className="mt-4">
@@ -116,7 +116,7 @@ function ExerciseList({ addExercise, toggleModal }) {
   return (
     <div className="flex flex-col space-y-2">
       {exercises.length === 0
-        ? "Add your first exercise"
+        ? "Add your first activity"
         : exercises.map(({ exerciseName }) => (
             <Button
               key={exerciseName}
@@ -136,7 +136,7 @@ function SelectExerciseFooter({ toggleShowCreateExercise, toggleModal }) {
   return (
     <>
       <Button
-        value="Create new exercise"
+        value="Create new activity"
         variant="frame"
         action={toggleShowCreateExercise}
       />
@@ -154,7 +154,7 @@ function CreateExercise({ exerciseName, handleChangeName, error }) {
         name="name"
         type="text"
         label="Name"
-        placeholder="Exercise name.."
+        placeholder="Activity name.."
         value={exerciseName}
         handleChange={handleChangeName}
       />
@@ -167,7 +167,7 @@ function CreateExerciseFooter({ toggleShowCreateExercise, saveExercise }) {
   return (
     <div className="flex space-x-4">
       <Button value="Cancel" action={toggleShowCreateExercise} />
-      <Button value="Save exercise" variant="primary" action={saveExercise} />
+      <Button value="Save activity" variant="primary" action={saveExercise} />
     </div>
   );
 }
