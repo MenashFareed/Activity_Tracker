@@ -10,6 +10,7 @@ import Profile from "./pages/Profile";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Activity from "./pages/Activity";
+import Signning from "./pages/Signning";
 
 function Router() {
   return (
@@ -17,7 +18,7 @@ function Router() {
       <AuthProvider>
         <WorkoutProvider>
           <Switch>
-            <RouteWrapper path="/sign-in" layout={SignInLayout} page={SignIn} />
+            <RouteWrapper path="/sign-in" layout={SignInLayout} page={Signning} />
             <RouteWrapper path="/sign-up" layout={SignInLayout} page={SignUp} />
             <RouteWrapper
               exact
