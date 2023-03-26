@@ -9,7 +9,7 @@ import useWorkoutDb from "../hooks/useWorkoutDb";
 
 function Dashboard() {
   const { isFetchingWorkouts, workouts } = useWorkoutDb();
-
+  let x =[];
   const initialData = {
     today: 0,
     week: 0,
@@ -60,7 +60,35 @@ function Dashboard() {
       calcCalories();
     }
   }, [isFetchingWorkouts, workouts]);
+  console.log(workouts)
 
+  const exerciseCount = {};
+  const exerciseReps = {};
+  
+  workouts.forEach((item) => {
+    const workout = item.workout;
+    for (const key in workout) {
+      const exerciseName = workout[key].exerciseName;
+      const sets = workout[key].sets;
+      if (exerciseName in exerciseCount) {
+        exerciseCount[exerciseName]++;
+      } else {
+        exerciseCount[exerciseName] = 1;
+      }
+      for (const setKey in sets) {
+        const reps = sets[setKey].reps;
+        if (exerciseName in exerciseReps) {
+          exerciseReps[exerciseName] += reps;
+        } else {
+          exerciseReps[exerciseName] = reps;
+        }
+      }
+    }
+  });
+  
+  console.log(exerciseCount);
+  console.log(exerciseReps);
+  
   return (
     <div className="space-y-10 w-full">
       <div className="flex space-x-10 items-end">

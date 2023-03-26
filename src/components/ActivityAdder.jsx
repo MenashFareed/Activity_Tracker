@@ -55,7 +55,7 @@ function ActivityAdder({ toggleModal }) {
 
     try {
       await database.workouts.add({
-        workout: JSON.stringify(exercises),
+        workout: exercises,
         secondsPassed,
         userId: user.uid,
         createdAt: database.getCurrentTimestamp(),

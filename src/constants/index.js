@@ -40,7 +40,6 @@ export const NAV_LINKS = [
   Default set 
  --------------------------- */
 export const DEFAULT_SET = {
-  weight: 45,
   reps: 1,
   isFinished: false,
 };

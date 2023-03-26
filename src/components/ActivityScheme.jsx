@@ -58,7 +58,7 @@ function ActivityScheme() {
                           payload: {
                             exerciseId,
                             setId,
-                            newReps: e.target.value,
+                            newReps: parseInt(e.target.value, 10),
                           },
                         })
                       }
