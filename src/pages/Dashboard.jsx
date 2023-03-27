@@ -6,10 +6,10 @@ import CalorieChart from "../components/CalorieChart";
 import WorkoutChart from "../components/WorkoutChart";
 import { CALORIES_PER_HOUR } from "../constants";
 import useWorkoutDb from "../hooks/useWorkoutDb";
+import moment from 'moment';
 
 function Dashboard() {
   const { isFetchingWorkouts, workouts } = useWorkoutDb();
-  let x =[];
   const initialData = {
     today: 0,
     week: 0,
@@ -64,6 +64,7 @@ function Dashboard() {
 
   const exerciseCount = {};
   const exerciseReps = {};
+  let allReps = 0;
   
   workouts.forEach((item) => {
     const workout = item.workout;
@@ -77,10 +78,17 @@ function Dashboard() {
       }
       for (const setKey in sets) {
         const reps = sets[setKey].reps;
+        const createdAt = item.createdAt;
         if (exerciseName in exerciseReps) {
-          exerciseReps[exerciseName] += reps;
+          exerciseReps[exerciseName].totalReps += reps;
+          exerciseReps[exerciseName].repData.push({ reps, createdAt });
+          allReps += reps;
         } else {
-          exerciseReps[exerciseName] = reps;
+          exerciseReps[exerciseName] = {
+            totalReps: reps,
+            repData: [{ reps, createdAt }],
+          };
+          allReps += reps;
         }
       }
     }
@@ -88,6 +96,39 @@ function Dashboard() {
   
   console.log(exerciseCount);
   console.log(exerciseReps);
+  console.log(allReps);
+
+  function getTotalRepsForPeriod(activity, period) {
+    const repData = exerciseReps[activity].repData;
+    const now = moment();
+    let totalReps = 0;
+  
+    if (period === 'today') {
+      repData.forEach((rep) => {
+        const repDate = moment.unix(rep.createdAt.seconds);
+        if (now.isSame(repDate, 'day')) {
+          totalReps += rep.reps;
+        }
+      });
+    } else if (period === 'week') {
+      repData.forEach((rep) => {
+        const repDate = moment.unix(rep.createdAt.seconds);
+        if (now.diff(repDate, 'days') <= 7) {
+          totalReps += rep.reps;
+        }
+      });
+    } else if (period === 'month') {
+      repData.forEach((rep) => {
+        const repDate = moment.unix(rep.createdAt.seconds);
+        if (now.diff(repDate, 'days') <= 30) {
+          totalReps += rep.reps;
+        }
+      });
+    }
+  
+    return totalReps;
+  }
+
   
   return (
     <div className="space-y-10 w-full">
@@ -97,38 +138,40 @@ function Dashboard() {
           <Button value="New Activity" variant="primary" type="text" />
         </Link>
       </div>
-      <main className="lg:flex lg:space-x-10 space-y-5 lg:space-y-0">
-        <section className="lg:w-72 bg-primary text-white rounded-xl">
+      <main className="lg:flex lg:space-x-10 space-y-5 lg:space-y-0 chart-container">
+        <section className="lg:w-72 bg-primary text-white rounded-xl" id="activity-chart">
           <div className="p-10 space-y-10">
             <h2 className="text-lg text-white">Activities</h2>
             <div className="space-y-1">
               <h5 className="font-light text-sm text-white">TOTAL</h5>
               <h3 className="font-light text-6xl text-white">
-                {isFetchingWorkouts ? 0 : workouts.length}
+                {isFetchingWorkouts ? 0 : allReps}
               </h3>
             </div>
           </div>
           <WorkoutChart />
         </section>
-        <section className="flex-grow bg-white rounded-xl lg:flex">
+
+{Object.keys(exerciseReps).map((activity) => (
+        <section key={activity} className="flex-grow bg-white rounded-xl lg:flex" id="activity-chart">
           <div className="p-10 space-y-10">
-            <h2 className="text-lg text-primary">Stats</h2>
+            <h2 className="text-lg text-primary">{activity}</h2>
             <div className="space-y-1">
               <h5 className="font-light text-sm text-primary">TODAY</h5>
               <h3 className="font-light text-6xl text-primary">
-                {isFetchingWorkouts ? 0 : parseInt(calories.today)}
+                {getTotalRepsForPeriod(activity, 'today')}
               </h3>
             </div>
             <div className="space-y-1">
               <h5 className="font-light text-sm text-primary">THIS WEEK</h5>
               <h3 className="font-light text-6xl text-primary">
-                {isFetchingWorkouts ? 0 : parseInt(calories.week)}
+                {getTotalRepsForPeriod(activity, 'week')}
               </h3>
             </div>
             <div className="space-y-1">
               <h5 className="font-light text-sm text-primary">THIS MONTH</h5>
               <h3 className="font-light text-6xl text-primary">
-                {isFetchingWorkouts ? 0 : parseInt(calories.month)}
+                {getTotalRepsForPeriod(activity, 'month')}
               </h3>
             </div>
           </div>
@@ -136,32 +179,8 @@ function Dashboard() {
             <CalorieChart />
           </div>
         </section>
-        <section className="flex-grow bg-white rounded-xl lg:flex">
-          <div className="p-10 space-y-10">
-            <h2 className="text-lg text-primary">Stats</h2>
-            <div className="space-y-1">
-              <h5 className="font-light text-sm text-primary">TODAY</h5>
-              <h3 className="font-light text-6xl text-primary">
-                {isFetchingWorkouts ? 0 : parseInt(calories.today)}
-              </h3>
-            </div>
-            <div className="space-y-1">
-              <h5 className="font-light text-sm text-primary">THIS WEEK</h5>
-              <h3 className="font-light text-6xl text-primary">
-                {isFetchingWorkouts ? 0 : parseInt(calories.week)}
-              </h3>
-            </div>
-            <div className="space-y-1">
-              <h5 className="font-light text-sm text-primary">THIS MONTH</h5>
-              <h3 className="font-light text-6xl text-primary">
-                {isFetchingWorkouts ? 0 : parseInt(calories.month)}
-              </h3>
-            </div>
-          </div>
-          <div className="flex-grow">
-            <CalorieChart />
-          </div>
-        </section>
+      ))}
+
       </main>
     </div>
   );

@@ -27,7 +27,7 @@ function DashboardLayout({ children }) {
         id="desktop-menu"
         className="hidden lg:flex bg-white px-4 2xl:px-12 py-20 flex-col items-center justify-between"
       >
-        <div className="space-y-20 flex flex-col items-center">
+        <div className="space-y-20 flex flex-col items-center side-bar">
           <Logo />
           <NavBar links={getActiveNavLink(NAV_LINKS, pathname)} />
         </div>
@@ -57,7 +57,10 @@ function DashboardLayout({ children }) {
           />
         </div>
       </div>
-      <section className="bg-gray-100 w-full px-5 lg:px-20 py-10 pt-24 lg:pt-10 flex items-start justify-start">
+      <section
+        className="bg-gray-100 w-full px-5 lg:px-20 py-10 pt-24 lg:pt-10 flex items-start justify-start"
+        id="dashboard-parent"
+      >
         {children}
       </section>
     </div>

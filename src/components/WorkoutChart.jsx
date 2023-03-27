@@ -21,24 +21,45 @@ function WorkoutChart() {
       }
     };
 
-    const addWorkoutsPerMonth = () => {
-      for (const { createdAt } of workouts) {
+    // const addWorkoutsPerMonth = () => {
+    //   for (const { createdAt } of workouts) {
+    //     const month = format(new Date(createdAt.seconds * 1000), "LLL");
+    //     const index = lastMonths.indexOf(month);
+    //     if (index !== -1) {
+    //       setData((data) => {
+    //         data[index].amount++;
+    //         return data;
+    //       });
+    //     }
+    //   }
+    // };
+
+    const addRepsPerMonth = () => {
+      const dataCopy = [...data];
+      for (const workout of workouts) {
+        const { createdAt, workout: exercises } = workout;
         const month = format(new Date(createdAt.seconds * 1000), "LLL");
         const index = lastMonths.indexOf(month);
         if (index !== -1) {
-          setData((data) => {
-            data[index].amount++;
-            return data;
-          });
+          let totalReps = 0;
+          for (const exerciseId in exercises) {
+            const { sets } = exercises[exerciseId];
+            for (const setId in sets) {
+              totalReps += sets[setId].reps;
+            }
+          }
+          dataCopy[index].amount += totalReps;
         }
       }
+      setData(dataCopy);
     };
+    
 
     setData([]);
     addEmptyMonths();
 
     if (!isFetchingWorkouts && workouts.length) {
-      addWorkoutsPerMonth();
+      addRepsPerMonth();
     }
   }, [isFetchingWorkouts, workouts]);
 
