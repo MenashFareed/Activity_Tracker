@@ -2,9 +2,8 @@ import { format, subDays } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
 import useWorkoutDb from "../hooks/useWorkoutDb";
-import { CALORIES_PER_HOUR } from "../constants";
 
-function CalorieChart() {
+function CalorieChart({ activity }) {
   const [data, setData] = useState([]);
 
   const { isFetchingWorkouts, workouts } = useWorkoutDb();
@@ -18,19 +17,28 @@ function CalorieChart() {
       for (let i = 6; i >= 0; i--) {
         const day = format(subDays(today, i), "E");
         lastDays.push(day);
-        setData((data) => [...data, { day, calories: 0 }]);
+        setData((data) => [...data, { day, reps: 0 }]);
       }
     };
 
-    const addCaloriesPerDay = () => {
-      for (const { createdAt, secondsPassed } of workouts) {
+    const addRepsPerDay = () => {
+      for (const { createdAt, workout } of workouts) {
+        if (!workout) continue; 
+        let reps = 0;
+        Object.entries(workout).forEach(([workoutId, workoutData]) => {
+          if (workoutData.exerciseName === activity) {
+            Object.entries(workoutData.sets).forEach(([setId, setData]) => {
+              if (setData.isFinished) {
+                reps += setData.reps;
+              }
+            });
+          }
+        });
         const day = format(new Date(createdAt.seconds * 1000), "E");
         const index = lastDays.indexOf(day);
         if (index !== -1) {
-          const calories = CALORIES_PER_HOUR * (secondsPassed / 3600);
-
           setData((data) => {
-            data[index].calories = data[index].calories + parseInt(calories);
+            data[index].reps = data[index].reps + reps;
             return data;
           });
         }
@@ -41,9 +49,9 @@ function CalorieChart() {
     addEmptyDays();
 
     if (!isFetchingWorkouts && workouts.length) {
-      addCaloriesPerDay();
+      addRepsPerDay();
     }
-  }, [isFetchingWorkouts, workouts]);
+  }, [isFetchingWorkouts, workouts, activity]);
 
   return (
     <ResponsiveContainer width="99%" height={500}>
@@ -65,7 +73,7 @@ function CalorieChart() {
         <Tooltip />
         <Area
           type="monotone"
-          dataKey="calories"
+          dataKey="reps"
           stroke="#de8cbf"
           strokeWidth={3}
           fillOpacity={1}
@@ -77,3 +85,5 @@ function CalorieChart() {
 }
 
 export default CalorieChart;
+
+

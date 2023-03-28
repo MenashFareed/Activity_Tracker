@@ -20,19 +20,14 @@ export const NAV_LINKS = [
     icon: "dashboard",
   },
   {
-    label: "Workout",
-    to: "/workout",
+    label: "Activity",
+    to: "/activity",
     icon: "fitness",
   },
   {
     label: "Profile",
     to: "/profile",
     icon: "user",
-  },
-  {
-    label: "Activity",
-    to: "/activity",
-    icon: "fitness",
   },
 ];
 

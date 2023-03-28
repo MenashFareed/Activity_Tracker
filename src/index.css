@@ -55,8 +55,6 @@ body {
   align-items: center;
   flex-direction: column;
   font-family: "Montserrat", sans-serif;
-  height: 100vh;
-  margin: -20px 0 50px;
 }
 
 h1 {
@@ -141,6 +139,7 @@ input {
   width: 768px;
   max-width: 100%;
   min-height: 480px;
+  overflow-y: hidden;
 }
 
 .form-container {
@@ -286,10 +285,6 @@ input {
   margin: 0 0 4rem 0;
 }
 
-#root {
-  overflow-y: scroll;
-}
-
 #desktop-menu {
   padding-left: 32px;
   position: fixed;
@@ -308,4 +303,12 @@ input {
 
 #dashboard-parent {
   padding-left: 24rem;
+}
+
+.landing-page {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

@@ -60,7 +60,6 @@ function Dashboard() {
       calcCalories();
     }
   }, [isFetchingWorkouts, workouts]);
-  console.log(workouts)
 
   const exerciseCount = {};
   const exerciseReps = {};
@@ -93,10 +92,6 @@ function Dashboard() {
       }
     }
   });
-  
-  console.log(exerciseCount);
-  console.log(exerciseReps);
-  console.log(allReps);
 
   function getTotalRepsForPeriod(activity, period) {
     const repData = exerciseReps[activity].repData;
@@ -176,7 +171,7 @@ function Dashboard() {
             </div>
           </div>
           <div className="flex-grow">
-            <CalorieChart />
+            <CalorieChart activity={activity}/>
           </div>
         </section>
       ))}

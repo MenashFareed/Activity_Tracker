@@ -28,22 +28,16 @@ function Router() {
               page={Dashboard}
             />
             <RouteWrapper
-              path="/workout"
+              path="/activity"
               privateRoute
               layout={DashboardLayout}
-              page={Workout}
+              page={Activity}
             />
             <RouteWrapper
               path="/profile"
               privateRoute
               layout={DashboardLayout}
               page={Profile}
-            />
-            <RouteWrapper
-              path="/activity"
-              privateRoute
-              layout={DashboardLayout}
-              page={Activity}
             />
           </Switch>
         </WorkoutProvider>
