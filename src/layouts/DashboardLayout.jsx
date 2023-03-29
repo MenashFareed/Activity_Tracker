@@ -51,7 +51,7 @@ function DashboardLayout({ children }) {
         <div>
           <Button
             value="Menu"
-            variant="secondary"
+            variant="frame"
             icon="menu"
             action={handleMenu}
           />

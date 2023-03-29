@@ -23,7 +23,7 @@ function Button({
       break;
     case "frame":
       variantClass =
-        "bg-white text-primary border border-primary hover:bg-gray-100 focus:ring-primary";
+        "bg-white text-primary border border-primary hover:bg-gray-100 focus:ring-primary google-btn";
       break;
     case "green":
       variantClass =

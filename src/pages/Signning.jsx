@@ -116,14 +116,14 @@ function Signning() {
           <Input
             name="email"
             type="email"
-            placeholder="Enter email address.."
+            placeholder="Email"
             value={values.email}
             handleChange={handleChange}
           />
           <Input
             name="password"
             type="password"
-            placeholder="Enter password.."
+            placeholder="Password"
             value={values.password}
             handleChange={handleChange}
           />
@@ -144,14 +144,14 @@ function Signning() {
           <Input
             name="email"
             type="email"
-            placeholder="Enter email address.."
+            placeholder="Email"
             value={values.email}
             handleChange={handleChange}
           />
           <Input
             name="password"
             type="password"
-            placeholder="Enter password.."
+            placeholder="Password"
             value={values.password}
             handleChange={handleChange}
           />
@@ -178,6 +178,7 @@ function Signning() {
         value="Continue with Google"
         type="submit"
         variant="frame"
+        id="google-btn"
         action={handleGoogleSignIn}
         loading={googleLoading}
         fullWidth

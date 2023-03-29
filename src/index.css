@@ -318,4 +318,12 @@ input {
   #dashboard-parent {
     padding-left: 0;
   }
+
+  .sign-in-form {
+    width: 50%;
+  }
+
+  .google-btn {
+    border: none;
+  }
 }
